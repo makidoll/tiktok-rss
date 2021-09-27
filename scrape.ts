@@ -53,7 +53,9 @@ async function scrapeUser(username: string) {
 	const feed = new Feed({
 		title: "TikTok @" + username,
 		description: posts[0].author.signature,
-		link: "https://www.tiktok.com/@" + username,
+		// link: "https://www.tiktok.com/@" + username,
+		// when banned from tiktok, reeder cant fetch icon from above link
+		link: "https://www.tiktok.com",
 	});
 
 	for (const post of posts) {
