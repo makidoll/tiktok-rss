@@ -9,6 +9,7 @@ on:
 jobs:
     scheduled:
         runs-on: ubuntu-latest
+        continue-on-error: true
         steps:
             - name: Check out repo
               uses: actions/checkout@v2
@@ -22,8 +23,9 @@ jobs:
               run: deno run -A scrape.ts
 
             - name: Deploy
-              uses: peaceiris/actions-gh-pages@v3
+              uses: JamesIves/github-pages-deploy-action@4.1.5
               with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./public
-                  publish_branch: deploy # lets not use gh pages because cdn
+                  branch: deploy # lets not use gh pages because cdn
+                  folder: public
+                  single-commit: true
+                  silent: true
