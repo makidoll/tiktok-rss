@@ -1,16 +1,18 @@
 import { Feed } from "https://cdn.skypack.dev/feed";
 
-const commands = [
-	"sudo apt-get install libegl1 libopus0 libwoff1 libharfbuzz-icu0 gstreamer1.0-plugins-base libgstreamer-gl1.0-0 gstreamer1.0-plugins-bad libopenjp2-7 libwebpdemux2 libenchant1c2a libhyphen0 libgles2 gstreamer1.0-libav libevdev-dev",
-	"python -m pip install TikTokApi",
-	"python -m playwright install",
-	"sudo npx playwright install-deps",
-];
+if (Deno.build.os == "linux") {
+	const commands = [
+		"sudo apt-get install libegl1 libopus0 libwoff1 libharfbuzz-icu0 gstreamer1.0-plugins-base libgstreamer-gl1.0-0 gstreamer1.0-plugins-bad libopenjp2-7 libwebpdemux2 libenchant1c2a libhyphen0 libgles2 gstreamer1.0-libav libevdev-dev",
+		"python -m pip install TikTokApi",
+		"python -m playwright install",
+		"sudo npx playwright install-deps",
+	];
 
-for (const command of commands) {
-	await Deno.run({
-		cmd: command.split(" "),
-	}).status();
+	for (const command of commands) {
+		await Deno.run({
+			cmd: command.split(" "),
+		}).status();
+	}
 }
 
 const { url: serveUrl, usernames } = JSON.parse(
@@ -24,7 +26,7 @@ async function downloadAsset(url: string, filename: string) {
 		},
 	});
 	const buffer = await res.arrayBuffer();
-	await Deno.writeFile("./assets/" + filename, new Uint8Array(buffer));
+	await Deno.writeFile("./public/assets/" + filename, new Uint8Array(buffer));
 	// return parseInt(res.headers.get("content-length") ?? "0");
 }
 
@@ -74,7 +76,7 @@ async function scrapeUser(username: string) {
 		});
 	}
 
-	const rssFilePath = "./rss/" + username + ".xml";
+	const rssFilePath = "./public/rss/" + username + ".xml";
 	await Deno.writeTextFile(rssFilePath, feed.rss2());
 
 	console.log(rssFilePath + " written!");
@@ -86,8 +88,8 @@ async function mkdirp(path: string) {
 	} catch (error) {}
 }
 
-await mkdirp("rss");
-await mkdirp("assets");
+await mkdirp("./public/rss");
+await mkdirp("./public/assets");
 
 for (const username of usernames) {
 	await scrapeUser(username);

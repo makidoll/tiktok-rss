@@ -1,8 +1,8 @@
-name: Flat
+name: Deploy
 on:
     push:
         paths:
-            - .github/workflows/flat.yml
+            - .github/workflows/deploy.yml
     workflow_dispatch:
     schedule:
         - cron: "0 * * * *" # every hour at 0 minutes
@@ -19,8 +19,10 @@ jobs:
                   deno-version: v1.x
 
             - name: Fetch data
-              uses: githubocto/flat@v3
+              run: deno run -A scrape.ts
+
+            - name: Deploy
+              uses: peaceiris/actions-gh-pages@v3
               with:
-                  http_url: https://validator.w3.org/feed/docs/rss2.html
-                  downloaded_filename: rss2.html
-                  postprocess: scrape.ts
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./public
