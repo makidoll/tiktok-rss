@@ -2,7 +2,7 @@ import { Feed } from "https://cdn.skypack.dev/feed";
 
 const commands = [
 	"sudo apt-get install libegl1 libopus0 libwoff1 libharfbuzz-icu0 gstreamer1.0-plugins-base libgstreamer-gl1.0-0 gstreamer1.0-plugins-bad libopenjp2-7 libwebpdemux2 libenchant1c2a libhyphen0 libgles2 gstreamer1.0-libav libevdev-dev",
-	"python -m pip install -r requirements.txt",
+	"python -m pip install TikTokApi",
 	"python -m playwright install",
 	"sudo npx playwright install-deps",
 ];
