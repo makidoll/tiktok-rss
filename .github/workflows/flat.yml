@@ -1,0 +1,26 @@
+name: Flat
+on:
+    push:
+        paths:
+            - .github/workflows/flat.yml
+    workflow_dispatch:
+    schedule:
+        - cron: "*/5 * * * *"
+jobs:
+    scheduled:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repo
+              uses: actions/checkout@v2
+
+            - name: Setup deno
+              uses: denoland/setup-deno@main
+              with:
+                  deno-version: v1.x
+
+            - name: Fetch data
+              uses: githubocto/flat@v3
+              with:
+                  http_url: https://validator.w3.org/feed/docs/rss2.html
+                  downloaded_filename: rss2.html
+                  postprocess: scrape.ts
