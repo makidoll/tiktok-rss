@@ -54,7 +54,7 @@ async function scrapeUser(username: string) {
 		title: "TikTok @" + username,
 		description: posts[0].author.signature,
 		// link: "https://www.tiktok.com/@" + username,
-		// when banned from tiktok, reeder cant fetch icon from above link
+		// when shadow banned from tiktok, reeder cant fetch icon from above link
 		link: "https://www.tiktok.com",
 	});
 
